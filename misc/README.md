@@ -19,7 +19,7 @@ python misc/select_keypoint.py --urdf_file assets/articulated_objs/backup/backup
     When selecting a keypoint it will overwrite the existing keypoints.json in the object's asset directory. Please move the existing keypoints.json file to another location if you wish to preserve the points.
 
 
-To select keypoints, **right click** on the mesh where you'd like the keypoint to appear. A dot will appear to signify where the keypoint is annotated. If you do not like the placement of the keypoint **left click** to remove annotated keypoint. At the end all keypoints are saved to a `keypoints.json` file under the same parent directory of the asset you've provided. 
+To select keypoints, **shift + left click** on the mesh where you'd like the keypoint to appear. A dot will appear to signify where the keypoint is annotated. If you do not like the placement of the keypoint **shift + right click** to undo. At the end all keypoints are saved to a `keypoints.json` file under the same parent directory of the asset you've provided. 
 
 Using the example as above the following would occur:
 
