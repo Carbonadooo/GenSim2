@@ -11,7 +11,7 @@ Use this Python script to select keypoints on a mesh. Currently supports the fol
 - --urdf_file (.urdf)
 
 ```
-python misc/select_keypoint.py --urdf_file assets/articulated_objs/backup/backup/box/mobility.urdf
+python misc/utils/select_keypoint.py --urdf_dir assets/articulated_objs/box_move/100221/
 ```
 
     ⚠️ WARNING ⚠️
@@ -32,23 +32,23 @@ articulated_objs/
 
 ### vis_keypoint.py
 
-Use this Python script to select keypoints on a mesh. Currently supports the following arguments as input
+Use this Python script to visualize keypoints on a mesh. Currently supports the following arguments as input
 
 - --mesh_file (.obj) 
-- --urdf_file (.urdf)
+- --urdf_dir (directory containing mobility.urdf)
 - --ply_file (.ply)
 
 
 
 An example of a runnable script:
 ```
-python misc/vis_keypoint.py --urdf_file assets/articulated_objs/window/102801_link_0/mobility.urdf
+python misc/utils/vis_keypoint.py --urdf_dir assets/articulated_objs/window_push/102801/
 ```
-We assume there is a keypoints.json file located under the parent directory of the mesh file. Here's an example using the command from above:
+We assume there is a keypoints.json file located under the same directory as the mobility.urdf file. Here's an example using the command from above:
 
 ```
-window/
-├── 102801_link_0/
+window_push/
+├── 102801/
 │   ├── keypoints.json
 │   └── mobility.urdf
 ```

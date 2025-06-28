@@ -30,7 +30,9 @@ datapath = args.dir
 
 o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
 
-urdf, controller = getURDF(os.path.join(args.urdf_dir, "mobility.urdf"))
+# Expand user directory for relative paths
+urdf_dir = os.path.expanduser(args.urdf_dir)
+urdf, controller = getURDF(os.path.join(urdf_dir, "mobility.urdf"))
 trimesh_scene = urdf.getMesh()
 # mesh = o3d.io.read_triangle_mesh(args.mesh_file)
 mesh = getOpen3DFromTrimeshScene(trimesh_scene)
@@ -62,7 +64,7 @@ picked_points = xyz[picked_points]
 print(picked_points)
 color_lists = ["red", "yellow", "blue", "green", "magenta", "purple", "orange"]
 
-dir_name = args.urdf_dir
+dir_name = urdf_dir
 keypoint_description_file = os.path.join(dir_name, "keypoints.json")
 
 keypoint_info = {

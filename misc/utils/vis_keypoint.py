@@ -19,7 +19,7 @@ from gensim2.pipeline.utils.trimesh_URDF import getURDF
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--mesh_file", "-m", type=str, default="")  # .obj
-parser.add_argument("--urdf_file", "-u", type=str, default="")  # .urdf
+parser.add_argument("--urdf_dir", "-u", type=str, default="")  # directory containing mobility.urdf
 parser.add_argument("--ply_file", "-p", type=str, default="")  # .ply
 parser.add_argument("--json_file", "-j", type=str, default="")  # ga_partnet yaml file
 
@@ -36,11 +36,13 @@ if len(args.mesh_file) > 0:
     meshes.append(pcd)
     data_loaded = True
 
-if len(args.urdf_file) > 0:
+if len(args.urdf_dir) > 0:
     if data_loaded:
         print("Please only specify one of ply_file and mesh_file")
         exit()
-    urdf, controller = getURDF(args.urdf_file)
+    # Expand user directory for relative paths
+    urdf_dir = os.path.expanduser(args.urdf_dir)
+    urdf, controller = getURDF(os.path.join(urdf_dir, "mobility.urdf"))
     trimesh_scene = urdf.getMesh()
     mesh = getOpen3DFromTrimeshScene(trimesh_scene)
 
@@ -79,10 +81,17 @@ if len(args.json_file) > 0:  # GA PartNet
     radius = 0.05
     # radius = 0.1
 else:
-    if len(args.urdf_file) > 0:
-        keypoint_info = json.load(
-            open(os.path.dirname(os.path.dirname(args.urdf_file)) + "/info.json")
-        )
+    if len(args.urdf_dir) > 0:
+        # Expand user directory for relative paths
+        urdf_dir = os.path.expanduser(args.urdf_dir)
+        # Look for keypoints.json in the same directory as mobility.urdf
+        keypoints_file = os.path.join(urdf_dir, "keypoints.json")
+        if os.path.exists(keypoints_file):
+            keypoint_info = json.load(open(keypoints_file))
+        else:
+            # Fallback to info.json if keypoints.json doesn't exist
+            info_file = os.path.join(urdf_dir, "info.json")
+            keypoint_info = json.load(open(info_file))
     elif len(args.mesh_file) > 0:
         keypoint_info = json.load(open(os.path.dirname(args.mesh_file) + "/info.json"))
         # keypoint_info = json.load(open(os.path.dirname(os.path.dirname(args.mesh_file)) + "/info.json"))
